@@ -62,7 +62,9 @@ jobs:
           # package and fails with "Failed to find package 'tools'".
           packages: ""
       - name: Cleanup unexpected CMake packages
-        run: sdkmanager --uninstall $(sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}')
+        run: |
+          sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}'
+          sdkmanager --uninstall $(sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}')
       - name: Install NDK and CMake
         run: sdkmanager --install "ndk;${NDK_VERSION}" "cmake;${CMAKE_VERSION}" > /dev/null
       - name: Build engine
