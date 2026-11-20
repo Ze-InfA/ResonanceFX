@@ -65,8 +65,11 @@ jobs:
         run: |
           sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}'
           sdkmanager --uninstall $(sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}')
+          sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}'
       - name: Install NDK and CMake
-        run: sdkmanager --install "ndk;${NDK_VERSION}" "cmake;${CMAKE_VERSION}" > /dev/null
+        run: |
+          sdkmanager --install "ndk;${NDK_VERSION}" "cmake;${CMAKE_VERSION}" > /dev/null
+          sdkmanager --list_installed --verbose | awk '/cmake;/{print $1}'
       - name: Build engine
         run: ANDROID_SDK="$ANDROID_HOME" bash scripts/build-engine.sh
       - name: Package module
